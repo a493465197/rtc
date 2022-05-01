@@ -345,84 +345,40 @@ class HomeController extends Controller {
       code: 0
     }
   }
-
-  async sign() {
-    const {
-      ctx
-    } = this;
-    try {
-      const username = ctx.cookies.get('user')
-      const body = ctx.request.body
-      const currFile = body.file?.fileList && body.file?.fileList[0]
-      const key = await this.ctx.model.Key.findOne({id: body.keyId})
-
-      await new Promise((resolve) => {
-        child_process.exec(`jarsigner -verbose -keystore /home/lzy/android.keystore -storepass 123456 -signedjar ${path.resolve(__dirname, '../public', '.'+currFile.response.filePathName.replace('.apk', 'sign.apk'))} ${path.resolve(__dirname, '../public', '.'+currFile.response.filePathName)} lzy`, (error, stdout, stderr) => {
-          if (error) {
-            console.error(`exec error: ${error}`);
-          }
-          resolve()
-        })
-      })
-      const fileBin = await fs.promises.readFile(path.resolve(__dirname, '../public', '.'+currFile.response.filePathName.replace('.apk', 'sign.apk')))
-
-      await this.ctx.model.Sign.create({
-        username,
-        keyId: body.keyId,
-        jarSignFile: currFile.response.filePathName.replace('.apk', 'sign.apk'),
-        jarUnSignFile: currFile.response.filePathName,
-        file: body.file,
-        sign: md5(Array.from(fileBin).join('') + key.key)
-  
-      })
-    }catch (e) {
-      ctx.body = {
-        code: -1,
-        msg: e
-      }
-      return
-    }
-
-    ctx.body = {
-      code: 0
-    }
-  }
-  async signList() {
+  async docList() {
 
     const {
       ctx
     } = this;
     const username = ctx.cookies.get('user')
 
-    const list = await this.ctx.model.Sign.aggregate([
-      {
-        $lookup:{
-            from:'key',  // 关联的集合
-            localField:'keyId',  // 本地关联的字段
-            foreignField:'id',  // 对方集合关联的字段
-            as:'key',  // 结果字段名,
-        },
-   
-        
-    },
-    {
-      $match: {
-        username
-      }
-    }
-
-    ])
+    const list = await this.ctx.model.Doc.find()
     ctx.body = {
       code: 0,
       value: list
     }
   }
-  async delSign() {
+  async delDoc() {
 
     const {
       ctx
     } = this;
-    await this.ctx.model.Sign.deleteOne(ctx.request.body)
+    await this.ctx.model.Doc.deleteOne(ctx.request.body)
+    ctx.body = {
+      code: 0
+    }
+  }
+  async addDoc() {
+
+    const {
+      ctx
+    } = this;
+    const username = ctx.cookies.get('user')
+    await this.ctx.model.Doc.create({
+      ...ctx.request.body,
+      creater: username,
+      
+    })
     ctx.body = {
       code: 0
     }

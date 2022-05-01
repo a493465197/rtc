@@ -51,10 +51,19 @@ module.exports = appInfo => {
   // }
   config.mongoose = {
     client:{
-    url:'mongodb://124.221.66.29:27017/sign',
+    url:'mongodb://124.221.66.29:27017/multEdit',
     options:{}
     }
   }
+  config.io= {
+    namespace: {
+      '/file': {
+        connectionMiddleware: [],
+        packetMiddleware: [],
+      },
+    },
+  }
+
   config.security = {
     csrf: {
       enable: false,

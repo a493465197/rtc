@@ -4,7 +4,7 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const { router, controller } = app;
+  const { router, controller, io } = app;
 
   router.get('/', controller.home.index);
   router.get('/init', controller.home.init);
@@ -30,9 +30,9 @@ module.exports = app => {
   router.post('/api/myKeyList', controller.api.myKeyList);
   router.post('/api/keyList', controller.api.keyList);
   router.post('/api/delKey', controller.api.delKey);
-  router.post('/api/sign', controller.api.sign);
-  router.post('/api/signList', controller.api.signList);
-  router.post('/api/delSign', controller.api.delSign);
+  router.post('/api/docList', controller.api.docList);
+  router.post('/api/delDoc', controller.api.delDoc);
+  router.post('/api/addDoc', controller.api.addDoc);
   router.post('/api/getKeyAuth', controller.api.getKeyAuth);
   router.post('/api/getKeyAuthList', controller.api.getKeyAuthList);
   router.post('/api/agreeGetKeyAuth', controller.api.agreeGetKeyAuth);
@@ -40,5 +40,8 @@ module.exports = app => {
 
   router.post('/common/upload', controller.common.upload);
 
+
+
+  io.of('/file').route('/io/save', controller.io.save)
 
 };
