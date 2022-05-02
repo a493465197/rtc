@@ -13,7 +13,6 @@ class HomeController extends Controller {
 
     const nsp = app.io.of('/file');
     const msg = ctx.args[0]
-    console.log(msg)
     if (msg.type === 'save') {
       msg.val && await ctx.model.Log.create({docId: msg.room, type: '保存', desc: '编辑成' + msg.val, username, isTag: true, detail: msg.val})
 

@@ -28,7 +28,7 @@ module.exports = () => {
     //   return;
     // }
     const el = await ctx.model.Doc.findOne({id: room})
-    nsp.emit('edit', {
+    socket.emit('init', {
       val: el ? el.detail || '' : ''
     })
 
