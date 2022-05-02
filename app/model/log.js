@@ -2,14 +2,24 @@ module.exports = app => {
     const mongoose = app.mongoose;
     const Schema = mongoose.Schema;
 
-    const DocSchema = new Schema({
-        creater: {
+    const LogSchema = new Schema({
+        docId: {
             type: String
         },
         // title: {
         //     type: String
         // },
-        title: {
+        username: String,
+        type: {
+            type: String,
+        },
+        detail: {
+            type: String,
+        },
+        desc: {
+            type: String,
+        },
+        docTitle: {
             type: String,
         },
         id: {
@@ -21,11 +31,13 @@ module.exports = app => {
             type: Number,
             default: () => Date.now()
         },
-        detail: {
-            type: String
+        isTag: {
+            type: Boolean,
+            default: false
         },
 
 
+
     });
-    return mongoose.model('Doc', DocSchema, 'doc');
+    return mongoose.model('Log', LogSchema, 'log');
 }

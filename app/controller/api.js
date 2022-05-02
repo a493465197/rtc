@@ -358,6 +358,52 @@ class HomeController extends Controller {
       value: list
     }
   }
+  async docBack() {
+
+    const {
+      ctx
+    } = this;
+    const username = ctx.cookies.get('user')
+
+    const list = await this.ctx.model.Doc.updateOne({
+      id: ctx.request.body.docId,
+
+    }, {
+      detail: ctx.request.body.detail,
+    })
+    ctx.body = {
+      code: 0,
+      value: list
+    }
+  }
+  async logList() {
+
+    const {
+      ctx
+    } = this;
+    const username = ctx.cookies.get('user')
+
+    const list = await this.ctx.model.Log.aggregate([
+      {
+        $lookup:{
+          from:'doc',  // 关联的集合
+          localField:'docId',  // 本地关联的字段
+          foreignField:'id',  // 对方集合关联的字段
+          as:'doc',  // 结果字段名,
+      },
+      },
+      {
+        $match: ctx.request.body
+      }
+    ]).sort({
+      time: -1
+      
+    })
+    ctx.body = {
+      code: 0,
+      value: list
+    }
+  }
   async delDoc() {
 
     const {

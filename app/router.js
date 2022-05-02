@@ -31,6 +31,8 @@ module.exports = app => {
   router.post('/api/keyList', controller.api.keyList);
   router.post('/api/delKey', controller.api.delKey);
   router.post('/api/docList', controller.api.docList);
+  router.post('/api/logList', controller.api.logList);
+  router.post('/api/docBack', controller.api.docBack);
   router.post('/api/delDoc', controller.api.delDoc);
   router.post('/api/addDoc', controller.api.addDoc);
   router.post('/api/getKeyAuth', controller.api.getKeyAuth);
@@ -42,6 +44,6 @@ module.exports = app => {
 
 
 
-  io.of('/file').route('/io/save', controller.io.save)
+  io.of('/file').route('save', io.controller.io.save)
 
 };

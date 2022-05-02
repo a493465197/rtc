@@ -56,14 +56,30 @@ module.exports = appInfo => {
     }
   }
   config.io= {
+    init: {
+      wsEngine: 'ws',
+    },
     namespace: {
       '/file': {
-        connectionMiddleware: [],
+        connectionMiddleware: ['auth', 'connection'],
         packetMiddleware: [],
+        cors: true
       },
     },
+    redis: {
+      host: '127.0.0.1',
+      port: 6379,
+      
+    },
+    cors: true
   }
 
+  config.redis= {
+    host: '127.0.0.1',
+    port: 6379,
+    db: 0,
+    
+  },
   config.security = {
     csrf: {
       enable: false,
