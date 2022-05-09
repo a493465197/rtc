@@ -51,7 +51,7 @@ module.exports = appInfo => {
   // }
   config.mongoose = {
     client:{
-    url:'mongodb://124.221.66.29:27017/multEdit',
+    url:'mongodb://124.221.66.29:27017/rtc',
     options:{}
     }
   }
@@ -61,6 +61,11 @@ module.exports = appInfo => {
     },
     namespace: {
       '/file': {
+        connectionMiddleware: ['auth', 'connection'],
+        packetMiddleware: [],
+        cors: true
+      },
+      '/rtc': {
         connectionMiddleware: ['auth', 'connection'],
         packetMiddleware: [],
         cors: true

@@ -7,7 +7,6 @@ const moment = require('moment')
 // const puppeteer = require('puppeteer');
 class HomeController extends Controller {
   async save() {
-    
     const { ctx, app } = this;
     const username = ctx.cookies.get('user')
 
@@ -17,14 +16,53 @@ class HomeController extends Controller {
       msg.val && await ctx.model.Log.create({docId: msg.room, type: '保存', desc: '编辑成' + msg.val, username, isTag: true, detail: msg.val})
 
     } else if (msg.type === 'edit') {
-      nsp.to(msg.room).emit('edit', {
+
+      nsp.to(ctx.socket.handshake.query.room).emit('edit', {
         val: msg.val
       });
-      await ctx.model.Doc.updateOne({id: msg.room}, {
+      await ctx.model.Doc.updateOne({id: ctx.socket.handshake.query.room}, {
         detail: msg.val
       })
       msg.val && await ctx.model.Log.create({docId: msg.room, type: '编辑', desc: '编辑成' + msg.val, username, detail: msg.val})
     }
+
+
+  }
+  async data() {
+    const { ctx, app } = this;
+    const username = ctx.cookies.get('user')
+
+    const nsp = app.io.of('/rtc');
+    const msg = ctx.args[0]
+    const room = nsp.to(ctx.socket.handshake.query.room)
+
+    if (msg.type === 'plzSendYourReady') {
+      console.log(Object.keys(room.sockets))
+      for (let k in room.sockets) {
+        if (k === ctx.socket.id) continue
+
+        room.sockets[k].emit('data', msg);
+        await new Promise((resolve) => {setTimeout(() => {
+          resolve()
+        }, 1000);})
+      }
+      return
+    }
+
+
+    Object.keys(room.sockets).forEach((e) => {
+      // 不给自己转发消息
+      if (e === ctx.socket.id) return
+      // 如果消息带id 不给其他id转发消息
+      if (msg.id && e !== msg.id && msg.type !== 'ready') return
+
+
+      room.sockets[e].emit('data', msg);
+
+    })
+
+    // nsp.to(ctx.socket.handshake.query.room).emit('data', msg);
+
 
 
   }
