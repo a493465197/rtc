@@ -51,8 +51,10 @@ module.exports = appInfo => {
   // }
   config.mongoose = {
     client:{
-    url:'mongodb://124.221.66.29:27017/rtc',
-    options:{}
+    url:'mongodb://root:zraipi@124.221.66.29:27017/rtc',
+    options:{
+      
+    }
     }
   }
   config.io= {
@@ -66,6 +68,11 @@ module.exports = appInfo => {
         cors: true
       },
       '/rtc': {
+        connectionMiddleware: ['auth', 'connection'],
+        packetMiddleware: [],
+        cors: true
+      },
+      '/chat': {
         connectionMiddleware: ['auth', 'connection'],
         packetMiddleware: [],
         cors: true

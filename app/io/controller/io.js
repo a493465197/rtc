@@ -66,6 +66,30 @@ class HomeController extends Controller {
 
 
   }
+  async chatData() {
+    const { ctx, app } = this;
+    const username = ctx.cookies.get('user')
+
+    const nsp = app.io.of('/chat');
+    const msg = ctx.args[0]
+    const room = nsp.to(ctx.socket.handshake.query.room)
+
+
+
+    Object.keys(room.sockets).forEach((e) => {
+      // 如果消息带id 不给其他id转发消息
+      if (msg.id && e !== msg.id && msg.type !== 'ready') return
+
+
+      room.sockets[e].emit('data', msg);
+
+    })
+
+    // nsp.to(ctx.socket.handshake.query.room).emit('data', msg);
+
+
+
+  }
   
   async init() {
 
