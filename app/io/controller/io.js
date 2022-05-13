@@ -66,6 +66,38 @@ class HomeController extends Controller {
 
 
   }
+  async quiet() {
+    const { ctx, app } = this;
+    const username = ctx.cookies.get('user')
+
+    const nsp = app.io.of('/rtc');
+    const room = nsp.to(ctx.socket.handshake.query.room)
+
+    for (let k in room.sockets) {
+      if (k === ctx.socket.id) continue
+      room.sockets[k].emit('quiet');
+      await new Promise((resolve) => {setTimeout(() => {
+        resolve()
+      }, 1000);})
+    }
+
+  }
+  async stopQuiet() {
+    const { ctx, app } = this;
+    const username = ctx.cookies.get('user')
+
+    const nsp = app.io.of('/rtc');
+    const room = nsp.to(ctx.socket.handshake.query.room)
+
+    for (let k in room.sockets) {
+      if (k === ctx.socket.id) continue
+      room.sockets[k].emit('stopQuiet');
+      await new Promise((resolve) => {setTimeout(() => {
+        resolve()
+      }, 1000);})
+    }
+
+  }
   async chatData() {
     const { ctx, app } = this;
     const username = ctx.cookies.get('user')

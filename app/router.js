@@ -32,6 +32,8 @@ module.exports = app => {
 
   io.of('/file').route('save', io.controller.io.save)
   io.of('/rtc').route('data', io.controller.io.data)
+  io.of('/rtc').route('quiet', io.controller.io.quiet)
+  io.of('/rtc').route('stopQuiet', io.controller.io.stopQuiet)
   io.of('/chat').route('data', io.controller.io.chatData)
 
 };

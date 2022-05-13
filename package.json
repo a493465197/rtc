@@ -32,9 +32,9 @@
     "node": ">=10.0.0"
   },
   "scripts": {
-    "start": "egg-scripts start --daemon --title=egg-server-faka-egg --port 7002 --unsafe-perm=true --allow-root",
+    "start": "egg-scripts start --daemon --title=egg-server-faka-egg --port 7100 --unsafe-perm=true --allow-root",
     "stop": "egg-scripts stop --title=egg-server-faka-egg",
-    "dev": "egg-bin dev --port 7002 --sticky",
+    "dev": "egg-bin dev --port 7100 --sticky",
     "debug": "egg-bin debug",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
