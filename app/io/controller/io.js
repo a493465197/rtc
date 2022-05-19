@@ -39,6 +39,10 @@ class HomeController extends Controller {
     if (msg.type === 'plzSendYourReady') {
       console.log(Object.keys(room.sockets))
       for (let k in room.sockets) {
+        if (room.sockets[k].handshake.query.room !== ctx.socket.handshake.query.room) {
+          continue
+        }
+
         if (k === ctx.socket.id) continue
 
         room.sockets[k].emit('data', msg);
@@ -51,6 +55,8 @@ class HomeController extends Controller {
 
 
     Object.keys(room.sockets).forEach((e) => {
+      if (room.sockets[e].handshake.query.room !== ctx.socket.handshake.query.room) return
+
       // 不给自己转发消息
       if (e === ctx.socket.id) return
       // 如果消息带id 不给其他id转发消息
@@ -74,6 +80,9 @@ class HomeController extends Controller {
     const room = nsp.to(ctx.socket.handshake.query.room)
 
     for (let k in room.sockets) {
+      if (room.sockets[k].handshake.query.room !== ctx.socket.handshake.query.room) {
+        continue
+      }
       if (k === ctx.socket.id) continue
       room.sockets[k].emit('quiet');
       await new Promise((resolve) => {setTimeout(() => {
@@ -90,6 +99,9 @@ class HomeController extends Controller {
     const room = nsp.to(ctx.socket.handshake.query.room)
 
     for (let k in room.sockets) {
+      if (room.sockets[k].handshake.query.room !== ctx.socket.handshake.query.room) {
+        continue
+      }
       if (k === ctx.socket.id) continue
       room.sockets[k].emit('stopQuiet');
       await new Promise((resolve) => {setTimeout(() => {
@@ -109,6 +121,7 @@ class HomeController extends Controller {
 
 
     Object.keys(room.sockets).forEach((e) => {
+      if (room.sockets[e].handshake.query.room !== ctx.socket.handshake.query.room) return
       // 如果消息带id 不给其他id转发消息
       if (msg.id && e !== msg.id && msg.type !== 'ready') return
 
