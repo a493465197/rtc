@@ -3028,8 +3028,8 @@
                     cache.fillStyle = fillStyle;
                     cache.lineWidth = lineWidth;
 
-                    strokeStyle = 'White';
-                    fillStyle = 'White';
+                    strokeStyle = '#fbfbfb';
+                    fillStyle = '#fbfbfb';
                     lineWidth = 10;
                 } else if (cache.strokeStyle && cache.fillStyle && typeof cache.lineWidth !== 'undefined') {
                     strokeStyle = cache.strokeStyle;
