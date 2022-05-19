@@ -3030,7 +3030,7 @@
 
                     strokeStyle = '#fbfbfb';
                     fillStyle = '#fbfbfb';
-                    lineWidth = 10;
+                    lineWidth = 20;
                 } else if (cache.strokeStyle && cache.fillStyle && typeof cache.lineWidth !== 'undefined') {
                     strokeStyle = cache.strokeStyle;
                     fillStyle = cache.fillStyle;
