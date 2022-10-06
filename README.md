@@ -1,13 +1,16 @@
-# faka-egg
+# 基于webrtc的音视频在线课堂/实时画布/实时聊天
+使用技术：html/css/js/react/nodejs/mongodb/canvas
 
+测试地址：待更新
 
+测试账号：管理员账号123 密码123 其他角色自行注册
 
-## QuickStart
+项目介绍：支持多人课堂 
 
-<!-- add docs here for user -->
+任何问题联系qq 3167805287 微信 lzraipi
 
-see [egg docs][egg] for more detail.
-
+### 更多项目
+http://zlidev.com/
 ### Development
 
 ```bash
@@ -22,12 +25,3 @@ $ open http://localhost:7001/
 $ npm start
 $ npm stop
 ```
-
-### npm scripts
-
-- Use `npm run lint` to check code style.
-- Use `npm test` to run unit test.
-- Use `npm run autod` to auto detect dependencies upgrade, see [autod](https://www.npmjs.com/package/autod) for more detail.
-
-
-[egg]: https://eggjs.org
